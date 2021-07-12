@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>Somani Stores</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+    </script>
+    <script>
+      $(function(){
+        $("#header").load("header.html");
+    });
+  </script>
+    <style>
+        label:after {
+        content: '+';
+        position: absolute;
+        right: 1em;
+        color: #fff;
+        }
+
+        input:checked + label:after {
+        content: '-';
+        line-height: .8em;
+        }
+
+        .accordion__content{
+        max-height: 0em;
+        transition: all 0.4s cubic-bezier(0.865, 0.14, 0.095, 0.87);
+        }
+        input[name='panel']:checked ~ .accordion__content {
+        max-height: 50em;
+        }
+
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAVuVzDi0-XzFsQ13OqKn_VC4d6_Imq0sI",
+      authDomain: "indian-shop-84ab4.web.app",
+      databaseURL: "https://indian-shop-84ab4.firebaseio.com",
+      projectId: "indian-shop-84ab4",
+      storageBucket: "indian-shop-84ab4.appspot.com",
+      messagingSenderId: "1052530903733",
+      appId: "1:1052530903733:web:89bd4d28a4969f52e58cfc",
+      measurementId: "G-R75ZJLP42F"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db=firebase.firestore();
+    const auth = firebase.auth();
+    var user1=auth.W;
+
+
+  </script>
+
+  <div id="header"></div>
+
+  <div id="banner"></div>
+
+
+
+      <div id="contact"></div>
+
+      <div id="footer"></div>
+
+
+  <div class="container px-5 py-24 mx-auto">
+          <h1 class="text-3xl font-medium text-blue-800 title-font mb-2">Yet to be delievered</h1><br><br>
+          <div class="-my-8 pending-order">
+          </div>
+          <br>
+          <br>
+          <br>
+          <h1 class="text-3xl font-medium text-blue-800 title-font mb-2 -my-15">Orders Delievered</h1><br><br>
+          <div class="-my-8 ordered-delivered">
+
+          </div>
+  </div>
+
+
+      <script src="history.js"></script>
+
+</body>
+</html>

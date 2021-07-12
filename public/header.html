@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <!--  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">-->
+  <!--    <title>Document</title>-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <title></title>
+  <style>
+    .modal {
+      transition: opacity 0.25s ease;
+    }
+
+    body.modal-active {
+      overflow-x: hidden;
+      overflow-y: visible !important;
+    }
+
+    .svg-icon {
+      width: 1em;
+      height: 1em;
+    }
+
+    .svg-icon path,
+    .svg-icon polygon,
+    .svg-icon rect {
+      fill: #4691f6;
+    }
+
+    .svg-icon circle {
+      stroke: #4691f6;
+      stroke-width: 1;
+    }
+
+    .translate {
+      padding: 2px;
+      border: 1px black solid;
+      margin: 0px 4px;
+      border-radius: 10%;
+    }
+  </style>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+  var arrLang = {
+    'en': {
+      'home': 'Home',
+      'create': 'Create Store',
+      'view': 'View Store',
+      'pending': 'Pending Orders',
+      'history': 'Order history',
+      'account': 'Account',
+      'logout': 'Logout',
+      'login': 'Login',
+      'signup': 'Signup',
+      'cartbtn': 'Cart',
+      'store1': 'Store 1',
+      'store2': 'Store 2',
+      'store3': 'Store 3',
+      'mhead': 'Bring your business online with SwitchIt',
+      'power': 'Create your own online store backed by powerful tools that help you find customers, drive sales, and manage your day-to-day.',
+      'shead': 'With you wherever you\'re going',
+      'scont': 'One platform with all the ecommerce and point of sale features you need to start, run, and grow your business. Use one platform to sell products to anyone, anywhere - in person with Point of Sale and online through your website, social media, and online marketplaces.',
+      'loginhead': 'Login !',
+      'loginuser': 'User Email',
+      'loginpass': 'Password',
+      'signinbtn': "Sign In",
+      'forpass': 'Forgot Password?',
+      'signuphead': 'Sign Up !',
+      'signupname': 'Name',
+      'signupmob': 'Mobile No.',
+      'signupadd': 'Address',
+      'signupemail': 'Email',
+      'signuppass': 'Password',
+      'signupbtn': 'Sign Up',
+      'feedhead': 'Feedback',
+      'feedcont': 'Share your feedback and suggestions with us.',
+      'feedconc': 'Thanks for your valuable feedback.',
+      'acchead': 'Account Details',
+      'createhead': 'Create my Store',
+      'storepan': 'PAN No.',
+      'storegstn': 'GSTN No.',
+      'storename': 'Store Name',
+      'storecity': 'City',
+      'citypin': 'Pin Code'
+    },
+    'ta': {
+      'home': 'வீடு',
+      'create': 'கடையை உருவாக்கவும்',
+      'view': 'கடையை காண்க',
+      'pending': 'நிலுவையில் உள்ள ஆர்டர்கள்',
+      'history': 'ஒழுங்கு வரலாறு',
+      'account': 'கணக்கு',
+      'logout': 'வெளியேறு',
+      'login': 'உள்நுழைய',
+      'signup': 'பதிவுபெறுதல்',
+      'cartbtn': 'வண்டி',
+      'store1': 'கடை 1',
+      'store2': 'கடை 2',
+      'store3': 'கடை 3',
+      'mhead': 'உங்கள் வணிகத்தை ஆன்லைனில் கொண்டு வாருங்கள் SwitchIt',
+      'power': 'வாடிக்கையாளர்களைக் கண்டறியவும், விற்பனையை இயக்கவும், உங்கள் அன்றாடத்தை நிர்வகிக்கவும் உதவும் சக்திவாய்ந்த கருவிகளின் ஆதரவுடன் உங்கள் சொந்த ஆன்லைன் ஸ்டோரை உருவாக்கவும்.',
+      'shead': 'நீங்கள் எங்கு சென்றாலும் உங்களுடன்',
+      'scont': 'உங்கள் வணிகத்தைத் தொடங்க, இயக்க, மற்றும் வளர்க்க வேண்டிய அனைத்து இணையவழி மற்றும் விற்பனை அம்சங்களுடன் கூடிய ஒரு தளம். பாயிண்ட் ஆப் சேல் மற்றும் ஆன்லைனில் உங்கள் வலைத்தளம், சமூக ஊடகங்கள் மற்றும் ஆன்லைன் சந்தைகள் மூலம் யாருக்கும், எங்கிருந்தும் தயாரிப்புகளை விற்க ஒரு தளத்தைப் பயன்படுத்தவும்.',
+      'loginhead': 'உள்நுழைய !',
+      'loginuser': 'பயனர்பெயர்',
+      'loginpass': 'கடவுச்சொல்',
+      'signinbtn': 'உள்நுழைக',
+      'forpass':  'மறந்துவிட்டேன் கடவுச்சொல்?',
+      'signuphead': 'பதிவுபெறுதல் !',
+      'signupname': 'பெயர்',
+      'signupmob': 'அலைபேசி எண்.',
+      'signupadd': 'முகவரி',
+      'signupemail': 'மின்னஞ்சல்',
+      'signuppass': 'கடவுச்சொல்',
+      'signupbtn': 'பதிவுபெறுதல்',
+      'feedhead': 'பின்னூட்டம்',
+      'feedcont': 'உங்கள் கருத்துகளையும் பரிந்துரைகளையும் எங்களுடன் பகிர்ந்து கொள்ளுங்கள்.',
+      'feedconc': 'உங்கள் மதிப்புமிக்க கருத்துக்கு நன்றி.',
+      'acchead': 'கணக்கு விவரங்கள்',
+      'createhead': 'எனது கடையை உருவாக்கவும்',
+      'storepan': 'PAN No.',
+      'storegstn': 'GSTN No.',
+      'storename': 'கடை பெயர்',
+      'storecity': 'நகரம்',
+      'citypin': 'அஞ்சல் குறியீடு'
+    },
+    'hi': {
+      'home': 'होम',
+      'create': 'दुकान बनाएं',
+      'view': 'दुकान देखे',
+      'pending': 'लंबित ऑर्डर',
+      'history': 'ऑर्डर हिस्ट्री',
+      'account': 'खाता',
+      'logout': 'लॉग आउट',
+      'login': 'लॉग इन',
+      'signup': 'साइन अप',
+      'cartbtn': 'कार्ट',
+      'store1': 'स्टोर 1',
+      'store2': 'स्टोर 2',
+      'store3': 'स्टोर 3',
+      'mhead': 'अपने व्यवसाय को ऑनलाइन लेकर आएं SwitchIt',
+      'power': 'शक्तिशाली उपकरण द्वारा समर्थित अपना ऑनलाइन स्टोर बनाएं, जो ग्राहकों को खोजने, बिक्री करने और आपके दिन-प्रतिदिन के प्रबंधन में आपकी मदद करें।',
+      'shead': 'आप के साथ जहाँ भी आप जाए',
+      'scont': 'सभी ई-कॉमर्स और बिक्री सुविधाओं के बिंदु के साथ एक मंच जिसे आपको अपना व्यवसाय शुरू करने, चलाने और विकसित करने की आवश्यकता है। किसी को भी, कहीं भी, अपनी वेबसाइट, सोशल मीडिया और ऑनलाइन मार्केटप्लेस के माध्यम से ऑनलाइन बिक्री के साथ किसी को भी उत्पादों को बेचने के लिए एक मंच का उपयोग करें।',
+      'loginhead': 'लॉग इन !',
+      'loginuser': 'उपयोगकर्ता ईमेल',
+      'loginpass': 'पासवर्ड',
+      'signinbtn': 'साइन इन',
+      'forpass': 'पासवर्ड भूल गए?',
+      'signuphead': 'साइन अप !',
+      'signupname': 'नाम',
+      'signupmob': 'मोबाइल',
+      'signupadd': 'पता',
+      'signupemail': 'ईमेल',
+      'signuppass': 'पासवर्ड',
+      'signupbtn': 'साइन अप',
+      'feedhead': 'प्रतिपुष्टि',
+      'feedcont': 'अपनी प्रतिक्रिया और सुझाव हमारे साथ साझा करें।',
+      'feedconc': 'आपकी बहुमूल्य प्रतिक्रिया के लिए धन्यवाद।',
+      'acchead': 'खाता विवरण',
+      'createhead': 'अपना स्टोर बनाये',
+      'storepan': 'PAN No.',
+      'storegstn': 'GSTN No.',
+      'storename': 'स्टोर का नाम ',
+      'storecity': 'शहर',
+      'citypin': 'पिन कोड'
+    }
+  };
+
+  // Process translation
+  $(function() {
+    $('.translate').click(function() {
+      var lang = $(this).attr('id');
+
+      $('.lang').each(function(index, item) {
+        $(this).text(arrLang[lang][$(this).attr('key')]);
+      });
+    });
+  });
+</script>
+</head>
+
+<body>
+  <button id="en" class="translate">English</button>
+  <button id="ta" class="translate">தமிழ்</button>
+  <button id="hi" class="translate">हिंदी</button>
+  <header class="text-gray-700 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+
+      <a href="index.html" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+          stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+          viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+        <span class="ml-3 text-xl">Switch It</span>
+      </a>
+
+      <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center ">
+        <ul class="flex flex-wrap">
+          <li>
+            <a href="index.html" class="lang mr-5 hover:text-gray-900" key="home">Home</a>
+          </li>
+          <li class="logged-in create modal-open" style="display: none;">
+            <a href="/" class="lang mr-5 hover:text-gray-900" data-toggle="modal" data-target="modal-create" key="create">Create Store</a>
+          </li>
+
+          <li class="logged-in view" style="display: none;">
+            <a href='/' id="qwe" class="lang mr-5 hover:text-gray-900" key="view">View Store</a>
+          </li>
+          <li class="logged-in view" style="display: none;">
+            <a href='bill.html' class="lang mr-5 hover:text-gray-900" key="pending">Pending Orders</a>
+          </li>
+          <li class="logged-in" style="display: none;">
+            <a href="history.html" class="lang mr-5 hover:text-gray-900" key="history">Order History</a>
+          </li>
+          <li class="modal-open logged-in" style="display: none;">
+            <a class="lang mr-5 hover:text-gray-900" data-toggle="modal" data-target="modal-account" key="account">Account</a>
+          </li>
+          <li class="logged-in" style="display: none;">
+            <a href="/" id="logout" class="lang mr-5 hover:text-gray-900" key="logout">Logout</a>
+          </li>
+          <li class="modal-open logged-out" style="display: none;">
+            <a href="/" class="lang mr-5 hover:text-gray-900" data-toggle="modal" data-target="modal-login" key="login">Login</a>
+          </li>
+          <li class="modal-open logged-out" style="display: none;">
+            <a href="/" class="lang mr-5 hover:text-gray-900" data-toggle="modal" data-target="modal-signup" key="signup">SignUp</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div>
+      <a href="cart.html"
+        class="lang modal-open bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded m-4 float-right mr-16" key="cartbtn">
+        Cart
+      </a>
+    </div>
+  </header>
+
+
+  <!--LOGIN Modal-->
+  <div id="modal-login"
+    class="modal opacity-0 z-40 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+
+      <div
+        class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 18 18">
+          <path
+            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+          </path>
+        </svg>
+      </div>
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-4 text-left px-6">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="lang text-2xl font-bold" key="loginhead">Login !</p>
+          <div class="modal-close cursor-pointer z-50">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+              viewBox="0 0 18 18">
+              <path
+                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+              </path>
+            </svg>
+          </div>
+        </div>
+
+        <!--Body-->
+        <form id="login-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div class="mb-4">
+            <label class="lang block text-gray-700 text-sm font-bold mb-2" for="username" key="loginuser">
+              User Email
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="login-email" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="abc@xyz.com" required>
+          </div>
+          <div class="mb-4">
+            <label class="lang block text-gray-700 text-sm font-bold mb-2" for="password" key="loginpass">
+              Password
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="login-password" type="password" placeholder="******************" required>
+          </div>
+          <div class="flex items-center justify-between">
+            <button
+              class="lang bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit" key="signinbtn">
+              Sign In
+            </button>
+            <a onclick="forpass()"
+              class="lang inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#" key="forpass">
+              Forgot Password?
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!--SIGNUP Modal-->
+  <div id="modal-signup"
+    class="modal opacity-0 z-40 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+
+      <div
+        class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 18 18">
+          <path
+            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+          </path>
+        </svg>
+      </div>
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-4 text-left px-6">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="lang text-2xl font-bold" key="signuphead">Sign Up !</p>
+          <div class="modal-close cursor-pointer z-50">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+              viewBox="0 0 18 18">
+              <path
+                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+              </path>
+            </svg>
+          </div>
+        </div>
+
+        <!--Body-->
+        <form id="signup-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div class="mb-4">
+            <label class="lang block text-gray-700 text-sm font-bold mb-2" for="signup-name" key="signupname">
+              Name
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="signup-name" type="text" pattern="[A-Za-z\s]*" title="Name can contain only characters." placeholder="Name" required>
+          </div>
+          <div class="mb-4">
+            <label class="lang block text-gray-700 text-sm font-bold mb-2" for="signup-mobile" key="signupmob">
+              Mobile No.
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="signup-mobile" type="text" pattern="[0-9]{10}" title="Only 10 digit mobile no. allowed." placeholder="123567890" required>
+          </div>
+          <div class="mb-4">
+            <label class="lang block text-gray-700 text-sm font-bold mb-2" for="signup-address" key="signupadd">
+              Address
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="signup-address" type="text" placeholder="address" required>
+          </div>
+          <div class="mb-4">
+            <label class="lang block text-gray-700 text-sm font-bold mb-2" for="email" key="signupemail">
+              Email
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="signup-email" type="eamil" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email" required>
+          </div>
+          <div class="mb-4">
+            <label class="lang block text-gray-700 text-sm font-bold mb-2" for="password" key="signuppass">
+              Password
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="signup-password" type="password" placeholder="******************" required>
+          </div>
+          <div class="flex items-center justify-between">
+            <button
+              class="lang bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit" key="signupbtn">
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!--ACCOUNT Modal Modal-->
+  <div id="modal-account"
+    class="modal opacity-0 z-40 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+
+      <div
+        class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 18 18">
+          <path
+            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+          </path>
+        </svg>
+      </div>
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-4 text-left px-6">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="lang text-2xl font-bold" key="acchead">Account Details</p>
+          <div>
+            <button
+              class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center setting-click">
+              <svg class="svg-icon" viewBox="0 0 20 20">
+                <path
+                  d="M17.498,11.697c-0.453-0.453-0.704-1.055-0.704-1.697c0-0.642,0.251-1.244,0.704-1.697c0.069-0.071,0.15-0.141,0.257-0.22c0.127-0.097,0.181-0.262,0.137-0.417c-0.164-0.558-0.388-1.093-0.662-1.597c-0.075-0.141-0.231-0.22-0.391-0.199c-0.13,0.02-0.238,0.027-0.336,0.027c-1.325,0-2.401-1.076-2.401-2.4c0-0.099,0.008-0.207,0.027-0.336c0.021-0.158-0.059-0.316-0.199-0.391c-0.503-0.274-1.039-0.498-1.597-0.662c-0.154-0.044-0.32,0.01-0.416,0.137c-0.079,0.106-0.148,0.188-0.22,0.257C11.244,2.956,10.643,3.207,10,3.207c-0.642,0-1.244-0.25-1.697-0.704c-0.071-0.069-0.141-0.15-0.22-0.257C7.987,2.119,7.821,2.065,7.667,2.109C7.109,2.275,6.571,2.497,6.07,2.771C5.929,2.846,5.85,3.004,5.871,3.162c0.02,0.129,0.027,0.237,0.027,0.336c0,1.325-1.076,2.4-2.401,2.4c-0.098,0-0.206-0.007-0.335-0.027C3.001,5.851,2.845,5.929,2.77,6.07C2.496,6.572,2.274,7.109,2.108,7.667c-0.044,0.154,0.01,0.32,0.137,0.417c0.106,0.079,0.187,0.148,0.256,0.22c0.938,0.936,0.938,2.458,0,3.394c-0.069,0.072-0.15,0.141-0.256,0.221c-0.127,0.096-0.181,0.262-0.137,0.416c0.166,0.557,0.388,1.096,0.662,1.596c0.075,0.143,0.231,0.221,0.392,0.199c0.129-0.02,0.237-0.027,0.335-0.027c1.325,0,2.401,1.076,2.401,2.402c0,0.098-0.007,0.205-0.027,0.334C5.85,16.996,5.929,17.154,6.07,17.23c0.501,0.273,1.04,0.496,1.597,0.66c0.154,0.047,0.32-0.008,0.417-0.137c0.079-0.105,0.148-0.186,0.22-0.256c0.454-0.453,1.055-0.703,1.697-0.703c0.643,0,1.244,0.25,1.697,0.703c0.071,0.07,0.141,0.15,0.22,0.256c0.073,0.098,0.188,0.152,0.307,0.152c0.036,0,0.073-0.004,0.109-0.016c0.558-0.164,1.096-0.387,1.597-0.66c0.141-0.076,0.22-0.234,0.199-0.393c-0.02-0.129-0.027-0.236-0.027-0.334c0-1.326,1.076-2.402,2.401-2.402c0.098,0,0.206,0.008,0.336,0.027c0.159,0.021,0.315-0.057,0.391-0.199c0.274-0.5,0.496-1.039,0.662-1.596c0.044-0.154-0.01-0.32-0.137-0.416C17.648,11.838,17.567,11.77,17.498,11.697 M16.671,13.334c-0.059-0.002-0.114-0.002-0.168-0.002c-1.749,0-3.173,1.422-3.173,3.172c0,0.053,0.002,0.109,0.004,0.166c-0.312,0.158-0.64,0.295-0.976,0.406c-0.039-0.045-0.077-0.086-0.115-0.123c-0.601-0.6-1.396-0.93-2.243-0.93s-1.643,0.33-2.243,0.93c-0.039,0.037-0.077,0.078-0.116,0.123c-0.336-0.111-0.664-0.248-0.976-0.406c0.002-0.057,0.004-0.113,0.004-0.166c0-1.75-1.423-3.172-3.172-3.172c-0.054,0-0.11,0-0.168,0.002c-0.158-0.312-0.293-0.639-0.405-0.975c0.044-0.039,0.085-0.078,0.124-0.115c1.236-1.236,1.236-3.25,0-4.486C3.009,7.719,2.969,7.68,2.924,7.642c0.112-0.336,0.247-0.664,0.405-0.976C3.387,6.668,3.443,6.67,3.497,6.67c1.75,0,3.172-1.423,3.172-3.172c0-0.054-0.002-0.11-0.004-0.168c0.312-0.158,0.64-0.293,0.976-0.405C7.68,2.969,7.719,3.01,7.757,3.048c0.6,0.6,1.396,0.93,2.243,0.93s1.643-0.33,2.243-0.93c0.038-0.039,0.076-0.079,0.115-0.123c0.336,0.112,0.663,0.247,0.976,0.405c-0.002,0.058-0.004,0.114-0.004,0.168c0,1.749,1.424,3.172,3.173,3.172c0.054,0,0.109-0.002,0.168-0.004c0.158,0.312,0.293,0.64,0.405,0.976c-0.045,0.038-0.086,0.077-0.124,0.116c-0.6,0.6-0.93,1.396-0.93,2.242c0,0.847,0.33,1.645,0.93,2.244c0.038,0.037,0.079,0.076,0.124,0.115C16.964,12.695,16.829,13.021,16.671,13.334 M10,5.417c-2.528,0-4.584,2.056-4.584,4.583c0,2.529,2.056,4.584,4.584,4.584s4.584-2.055,4.584-4.584C14.584,7.472,12.528,5.417,10,5.417 M10,13.812c-2.102,0-3.812-1.709-3.812-3.812c0-2.102,1.71-3.812,3.812-3.812c2.102,0,3.812,1.71,3.812,3.812C13.812,12.104,12.102,13.812,10,13.812">
+                </path>
+              </svg>
+            </button>
+          </div>
+          <div class="modal-close cursor-pointer z-50">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+              viewBox="0 0 18 18">
+              <path
+                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+              </path>
+            </svg>
+          </div>
+        </div>
+
+        <!--Body-->
+        <div class="account-details"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--CREATE STORE Modal-->
+  <div id="modal-create"
+    class="modal opacity-0 z-40 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+
+      <div
+        class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 18 18">
+          <path
+            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+          </path>
+        </svg>
+      </div>
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-4 text-left px-6">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="lang text-2xl font-bold" key="createhead">Create my Store</p>
+          <div class="modal-close cursor-pointer z-50">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+              viewBox="0 0 18 18">
+              <path
+                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+              </path>
+            </svg>
+          </div>
+        </div>
+
+        <!--Body-->
+        <form id="create-form" class="w-full max-w-lg">
+          <div class="flex flex-wrap -mx-3 mb-0">
+            <div class="w-full px-3">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="storename" key="storename">
+                Store Name
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="storename" type="text" placeholder="ABC Entrp." required>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-0">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="panno" key="storepan">
+                PAN No.
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="panno" type="text" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" placeholder="BNZAA2318J" required>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="gstnno" key="storegstn">
+                GSTN No.
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="gstnno" type="text" pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" placeholder="06BZAHM6385P6Z2" required>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-0">
+            <div class="w-full px-3">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="address" key="signupadd">
+                Address
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="address" type="text" placeholder="Address" required>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-0">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city" key="storecity">
+                City
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="city" type="text" placeholder="city" required>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="pincode" key="citypin">
+                Pin Code
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="pincode" type="text" pattern="^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$" placeholder="242001" required>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-0">
+            <div class="w-full md:w-1/2 px-3 mb-0 md:mb-0">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="mobile" key="signupmob">
+                Mobile No.
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="mobile" type="text" pattern="[0-9]{10}" title="Only 10 digit mobile no. allowed." placeholder="1234567890" required>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <label class="lang block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email" key="signupemail">
+                Email
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="email" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="xyz@email.com" required>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <button
+              class="lang bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit" key="createhead">
+              Create my Store
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+
+
+  <script src="popup.js"></script>
+
+  <script src="auth.js"></script>
+  <script src="header.js"></script>
+
+</body>
+
+</html>
